@@ -1,0 +1,21 @@
+﻿@page "/fibonacci" 
+@rendermode InteractiveServer
+@using System.Numerics;
+
+<PageTitle>Fibonacci</PageTitle>
+<h3>Числа Фибоначчи</h3>
+
+<div class="fibonacci">
+    <input type="number" min="0" max="40" @bind="number" @bind:after="OnNumberChanged" />
+    @* <div id="current">@fibonacci</div> *@
+</div>
+
+@if (results.Any())
+{
+    <ol start="0">
+        @foreach (BigInteger fib in results)
+        {
+            <li>@fib</li>
+        }
+    </ol>
+}

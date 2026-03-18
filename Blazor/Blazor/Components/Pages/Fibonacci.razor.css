@@ -1,0 +1,10 @@
+﻿.fibonacci {
+    width: 44%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#fibonacci {
+    font-size: 24px;
+    font-weight: bold;
+}
