@@ -5,8 +5,8 @@ namespace TODOlist.Components.Pages
     public partial class Converter
     {
         string inputValue = "";
-        string result = "";
-        string errorMessage = "";
+        string result;
+        string errorMessage;
         string fromBase = "10";
         string toBase = "16";
 
