@@ -1,0 +1,48 @@
+﻿@page "/converter"
+@rendermode InteractiveServer
+
+<PageTitle>Converter</PageTitle>
+<h3>Converter</h3>
+
+<div class="input-group">
+    <label>Введите число:</label>
+    <input class="form-control" @bind="inputValue" placeholder="123 или 7F или 1010" />
+</div>
+
+<div class="select-group">
+    <select class="form-select" @bind="fromBase">
+        <option value="2">Binary (2)</option>
+        <option value="10">Decimal (10)</option>
+        <option value="16">Hex (16)</option>
+    </select>
+        
+    <span class="arrow">→</span>
+        
+    <select class="form-select" @bind="toBase">
+        <option value="2">Binary (2)</option>
+        <option value="10">Decimal (10)</option>
+        <option value="16">Hex (16)</option>
+    </select>
+</div>
+
+<button class="btn btn-primary" @onclick="ConvertTo" disabled="@isInvalidInput">
+    Конвертировать
+</button>
+
+<div>
+
+ @if (!string.IsNullOrEmpty(result))
+    {
+        <div class="result-group">
+            <label>Результат:</label>
+            <input class="form-control result" @bind="result" readonly />
+        </div>
+    }
+    
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+</div>
+
+

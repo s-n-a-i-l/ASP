@@ -1,0 +1,20 @@
+﻿
+label
+{
+    margin-right:2%;
+}
+
+.input-group, .select-group, .result-group {
+    margin-bottom: 15px;
+}
+
+.arrow {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.result {
+    background-color: #f8f9fa;
+    font-family: monospace;
+}

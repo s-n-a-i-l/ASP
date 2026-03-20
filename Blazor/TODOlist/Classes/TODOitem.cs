@@ -1,8 +1,8 @@
 ﻿namespace TODOlist.Classes
 {
-    public class TODOitem : IComparable<TODOitem>
+    public class TODOitem : IEquatable<TODOitem>, IComparable<TODOitem>
     {
-        public string Title { get; set; }
+        public string Title { get; set; } = "";
         public bool DONE { get; set; }
 
         //public static bool operator ==(TODOitem left, TODOitem right)
@@ -13,13 +13,13 @@
         //{
         //    return left.Title != right.Title;
         //}
-        public int CompareTo(TODOitem other)
+        public int CompareTo(TODOitem? other) // other не может быть null, поэтому "?" означает что параметр other может быть null
         {
-            return Title.CompareTo(other.Title);
+            return other is null ? 1 : Title.CompareTo(other.Title);
         }
-        public bool Equals(TODOitem left, TODOitem right)
+        public bool Equals(TODOitem? other)//как и тут  
         {
-            return left.Title == right.Title;
+            return other != null && Title == other.Title;
         }
         public int GetHashCode(TODOitem other)
         {
