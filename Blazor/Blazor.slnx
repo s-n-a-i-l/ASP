@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="Blazor/Blazor.csproj" />
+  <Project Path="Movies/Movies.csproj" Id="36a16612-8d82-4a59-9143-848b10a83ea7" />
   <Project Path="TODOlist/TODOlist.csproj" Id="cde1fd74-3b5d-4288-9511-5166c18454b1" />
 </Solution>
