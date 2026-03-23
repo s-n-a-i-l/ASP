@@ -16,6 +16,8 @@ namespace Movies.Models
         
         public string Genre { get; set; } = string.Empty;
         public string? URL { get; set; }
+        public byte[]? Img { get; set; }
+        public string? Brief { get; set; }
 
     }
 }

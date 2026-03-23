@@ -3,6 +3,7 @@
 @using Movies.Models
 @inject IDbContextFactory<Movies.Data.MoviesContext> DbFactory
 @inject NavigationManager NavigationManager
+@rendermode InteractiveServer
 
 <PageTitle>Create</PageTitle>
 
@@ -35,6 +36,23 @@
                 <InputText id="URL" @bind-Value="Movie.URL" class="form-control" />
                 <ValidationMessage For="() => Movie.URL" class="text-danger" />
             </div>
+            <div class="mb-3">
+                <label for="brief" class="form-label">Brief:</label>
+                <InputTextArea id="brief" @bind-Value="Movie.Brief" class="form-control" rows="4" placeholder="Введите сюжет фильма..." />
+                <ValidationMessage For="() => Movie.Brief" />
+            </div>
+            <div class="mb-3">
+                <label for="img" class="form-label">IMG:</label>
+                <InputFile OnChange="SelectFile" class="form-control" accept=".jpg,.jpeg,.png" />
+                @if (Movie.Img != null)
+                {
+                    <div class="mt-2">
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(Movie.Img)"
+                             style="max-width: 200px; border: 1px solid #ccc; border-radius: 5px;" />
+                    </div>
+                }
+            </div>
+
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
@@ -55,5 +73,24 @@
         context.Movie.Add(Movie);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/movies");
+        Console.WriteLine(Movie.Img?.Length);
+    }
+
+    private async Task SelectFile(InputFileChangeEventArgs e)
+    {
+        var file = e.File; 
+        
+        if (file != null)
+        {
+            using var stream = file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024);
+            
+            using var ms = new MemoryStream();
+
+            await stream.CopyToAsync(ms);
+
+            Movie.Img = ms.ToArray();
+
+            StateHasChanged();
+        }
     }
 }

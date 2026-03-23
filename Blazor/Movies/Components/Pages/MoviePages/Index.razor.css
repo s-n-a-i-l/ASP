@@ -1,0 +1,41 @@
+﻿.image-container img {
+    width: 70px;
+    height: 100px;
+    object-fit: cover; 
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.movie-container {
+    position: relative;
+    display: inline-flex;
+}
+
+.movie-brief {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    bottom: 120%;
+    left: 50%; 
+    width: 280px;
+    z-index: 9999; 
+    padding: 12px;
+    background: #ffffff;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    white-space: normal; 
+    transform: translateX(10px);
+}
+
+.movie-container:hover .movie-brief {
+    visibility: visible;
+    opacity: 1; 
+}
+
+.movie-container .movie-brief {
+    transition: opacity 0.1s ease 0s, visibility 0s linear 0.1s;
+}
