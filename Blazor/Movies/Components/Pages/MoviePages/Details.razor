@@ -16,12 +16,12 @@
         <p><em>Loading...</em></p>
     }
     else {
-        <div>
+        <div class="info"> 
             <div>
                 <dl class="row">
-                    <dt class="col-sm-2">Title</dt>
-                    <dd class="col-sm-10">@movie.Title</dd>
-                    <dt>
+                    <dt class="name col-sm-2">Title</dt>
+                    <dd class="value col-sm-10">@movie.Title</dd>
+                    <dt class="img">
                        
                         @if (movie.Img != null)
                         {
@@ -33,14 +33,14 @@
                         }
                         
                     </dt>
-                    <dt class="col-sm-2">ReleaseDate</dt>
-                    <dd class="col-sm-10">@movie.ReleaseDate</dd>
-                    <dt class="col-sm-2">Genre</dt>
-                    <dd class="col-sm-10">@movie.Genre</dd>
-                    <dt class="col-sm-2">Brief</dt>
-                    <dd class="col-sm-10">@movie.Brief</dd>
-                    <dt class="col-sm-2">URL</dt>
-                    <dd class="col-sm-10">
+                    <dt class="name col-sm-2">ReleaseDate</dt>
+                    <dd class="value col-sm-10">@movie.ReleaseDate</dd>
+                    <dt class="name col-sm-2">Genre</dt>
+                    <dd class="value col-sm-10">@movie.Genre</dd>
+                    <dt class="name col-sm-2">Brief</dt>
+                    <dd class="value col-sm-10">@movie.Brief</dd>
+                    <dt class="name col-sm-2">URL</dt>
+                    <dd class="value col-sm-10">
                     <a href="@movie.URL">@movie.URL</a></dd>   
                 </dl>
             </div>

@@ -1,4 +1,13 @@
-﻿.image-container img {
+﻿.controls {
+    display: flex;
+    justify-content: space-between;
+}
+.controls select
+{
+    height:24px;
+    width:44px;
+}
+.image-container img {
     width: 70px;
     height: 100px;
     object-fit: cover; 
@@ -39,3 +48,7 @@
 .movie-container .movie-brief {
     transition: opacity 0.1s ease 0s, visibility 0s linear 0.1s;
 }
+article {
+    background-image: linear-gradient(#054C76, #0C192A, #471C3A);
+}
+

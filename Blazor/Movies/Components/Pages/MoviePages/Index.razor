@@ -5,6 +5,7 @@
 @using Movies.Data
 @implements IAsyncDisposable
 @inject IDbContextFactory<Movies.Data.MoviesContext> DbFactory
+@rendermode InteractiveServer
 
 <PageTitle>Index</PageTitle>
 
@@ -14,7 +15,23 @@
     <a href="movies/create">Create New</a>
 </p>
 
-<QuickGrid Class="table" Items="context.Movie" style="vertical-align:middle">
+<div class="controls">
+    <form action="/movies" data-enhance="">
+        <input type="search" name="TitleFilter" @bind="TitleFilter"/>
+        <input type="submit" value="search"/>
+    </form>
+    <div>
+        <label for="items-per-page">Items per page:</label>
+        <select id="items-per-page" @bind="pagination.ItemsPerPage" >
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+        </select>
+    </div>
+</div>
+
+<QuickGrid Class="table" Items="FilteredMovies" style="vertical-align:middle;color:whitesmoke;" Pagination="pagination">
 
     <TemplateColumn Title="Poster" Context="movie">
         <div class="image-container">
@@ -32,7 +49,7 @@
 
     <TemplateColumn Title="Title">
         <div class="movie-container">
-            <a href="@context.URL">@context.Title</a>
+            <a style="color:floralwhite; " href="@context.URL">@context.Title</a>
         <div class="movie-brief">
             @context.Brief
             </div>
@@ -47,10 +64,18 @@
         <a href="@($"movies/details?id={movie.Id}")">Details</a> 
         @* <a href="@($"movies/delete?id={movie.Id}")">Delete</a> *@
     </TemplateColumn>
+
 </QuickGrid>
+    <Paginator State="pagination"/>
 
 @code {
     private MoviesContext context = default!;
+    [SupplyParameterFromForm]//Он автоматически заполняет модель данных значениями из полей формы, упрощая обработку отправки данных, относится к TitleFilter
+    string? TitleFilter { get; set; }
+
+    int ItemsPerPage { get; set; }
+
+    PaginationState pagination = new PaginationState { ItemsPerPage  = 5};
 
     protected override void OnInitialized()
     {
@@ -58,4 +83,6 @@
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
+
+    IQueryable<Movie> FilteredMovies => context.Movie.Where(m => m.Title!.Contains(TitleFilter ?? string.Empty));//! - 100% not null, подставляет только не нулевые значения 
 }
