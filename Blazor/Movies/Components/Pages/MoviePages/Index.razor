@@ -47,7 +47,11 @@
         </div>
     </TemplateColumn>
 
-    <TemplateColumn Title="Title">
+    <TemplateColumn Title="Title" 
+        InitialSortDirection="SortDirection.Ascending"
+        Sortable="true"
+        IsDefaultSortColumn="true"
+        SortBy="sortBy">
         <div class="movie-container">
             <a style="color:floralwhite; " href="@context.URL">@context.Title</a>
         <div class="movie-brief">
@@ -56,8 +60,8 @@
         </div>
     </TemplateColumn>
     @* <PropertyColumn Property="movie => movie.Title" /> *@
-    <PropertyColumn Property="movie => movie.ReleaseDate" />
-    <PropertyColumn Property="movie => movie.Genre" />
+    <PropertyColumn Sortable="true" Property="movie => movie.ReleaseDate" />
+    <PropertyColumn Sortable="true" Property="movie => movie.Genre" />
 
     <TemplateColumn Context="movie">
         <a href="@($"movies/edit?id={movie.Id}")">Edit</a> |
@@ -69,6 +73,9 @@
     <Paginator State="pagination"/>
 
 @code {
+
+    GridSort<Movie> sortBy = GridSort<Movie>.ByAscending(p=>p.Title);
+
     private MoviesContext context = default!;
     [SupplyParameterFromForm]//Он автоматически заполняет модель данных значениями из полей формы, упрощая обработку отправки данных, относится к TitleFilter
     string? TitleFilter { get; set; }
