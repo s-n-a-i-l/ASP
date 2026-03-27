@@ -1,19 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Academy.Components;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Movies;
-using Movies.Components;
-using Movies.Data;
-using Radzen;
+using Academy.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContextFactory<MoviesContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MoviesContext") ?? throw new InvalidOperationException("Connection string 'MoviesContext' not found.")));
+builder.Services.AddDbContextFactory<AcademyContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AcademyContext") ?? throw new InvalidOperationException("Connection string 'AcademyContext' not found.")));
 
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddRadzenComponents();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();

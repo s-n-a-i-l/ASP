@@ -2,6 +2,9 @@
     display: flex;
     justify-content: space-between;
 }
+.genre {
+    color: whitesmoke;
+}
 .controls select
 {
     height:24px;

@@ -29,9 +29,45 @@
             <option value="10">10</option>
         </select>
     </div>
+    
 </div>
 
-<QuickGrid Class="table" Items="FilteredMovies" style="vertical-align:middle;color:whitesmoke;" Pagination="pagination">
+<RadzenDataGrid Data="@FilteredMovies" TItem="Movie" AllowSorting="true" PagerHorizontalAlign="HorizontalAlign.Left" AllowPaging="true" PageSize="5">
+    <Columns>
+     
+        <RadzenDataGridColumn TItem="Movie" Title="Poster" Sortable="false" Width="100px">
+            <Template Context="movie">
+                <div class="image-container">
+                    @if (movie.Img != null && movie.Img.Length > 0)
+                    {
+                        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(movie.Img))" style="width:80px;" />
+                    }
+                </div>
+            </Template>
+        </RadzenDataGridColumn>
+
+        
+        <RadzenDataGridColumn TItem="Movie" Property="Title" Title="Title">
+            <Template Context="movie">
+                <a href="@movie.URL">@movie.Title</a>
+                <div style="font-size: 0.8rem; opacity: 0.8;">@movie.Brief</div>
+            </Template>
+        </RadzenDataGridColumn>
+
+        
+        <RadzenDataGridColumn TItem="Movie" Property="ReleaseDate" Title="Release Date" FormatString="{0:d}" />
+        <RadzenDataGridColumn TItem="Movie" Property="Genre" Title="Genre" />
+
+        
+        <RadzenDataGridColumn TItem="Movie" Context="movie" Sortable="false" Filterable="false">
+            <Template Context="movie">
+                <RadzenLink Path="@($"movies/edit?id={movie.Id}")" Text="Edit" /> |
+                <RadzenLink Path="@($"movies/details?id={movie.Id}")" Text="Details" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+@* <QuickGrid Class="table" Items="FilteredMovies" style="vertical-align:middle;" Pagination="pagination">
 
     <TemplateColumn Title="Poster" Context="movie">
         <div class="image-container">
@@ -53,23 +89,23 @@
         IsDefaultSortColumn="true"
         SortBy="sortBy">
         <div class="movie-container">
-            <a style="color:floralwhite; " href="@context.URL">@context.Title</a>
+            <a href="@context.URL">@context.Title</a>
         <div class="movie-brief">
             @context.Brief
             </div>
         </div>
     </TemplateColumn>
-    @* <PropertyColumn Property="movie => movie.Title" /> *@
-    <PropertyColumn Sortable="true" Property="movie => movie.ReleaseDate" />
-    <PropertyColumn Sortable="true" Property="movie => movie.Genre" />
+    
+    <PropertyColumn  Sortable="true" Property="movie => movie.ReleaseDate" />
+    <PropertyColumn  Sortable="true" Property="movie => movie.Genre" />
 
     <TemplateColumn Context="movie">
         <a href="@($"movies/edit?id={movie.Id}")">Edit</a> |
         <a href="@($"movies/details?id={movie.Id}")">Details</a> 
-        @* <a href="@($"movies/delete?id={movie.Id}")">Delete</a> *@
+        
     </TemplateColumn>
 
-</QuickGrid>
+</QuickGrid> *@
     <Paginator State="pagination"/>
 
 @code {
@@ -87,8 +123,9 @@
     protected override void OnInitialized()
     {
         context = DbFactory.CreateDbContext();
+       
     }
-
+    
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
 
     IQueryable<Movie> FilteredMovies => context.Movie.Where(m => m.Title!.Contains(TitleFilter ?? string.Empty));//! - 100% not null, подставляет только не нулевые значения 
