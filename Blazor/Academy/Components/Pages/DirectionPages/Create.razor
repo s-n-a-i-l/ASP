@@ -45,7 +45,13 @@
         get => Direction.direction_id;
         set => Direction.direction_id = (byte)(id=value);
     }
-    
+    protected override void OnInitialized()
+    {
+        using (Academy.Data.AcademyContext context = DbFactory.CreateDbContext())
+        {
+            ID = context.Directions.Max(d => d.direction_id) + 1;
+        } 
+    }
 
 
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
@@ -53,6 +59,7 @@
     {
         using var context = DbFactory.CreateDbContext();
         context.Directions.Add(Direction);
+       // if (context.Directions.Contains(Direction)) return;
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/directions");
     }

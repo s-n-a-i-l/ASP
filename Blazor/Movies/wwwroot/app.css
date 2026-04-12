@@ -1,4 +1,13 @@
 
+
+:root {
+    --main-theme-color: #3174ad;
+}
+
+.menu-item {
+    background-color: var(--main-theme-color);
+}
+
 html, body, .page {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
    
