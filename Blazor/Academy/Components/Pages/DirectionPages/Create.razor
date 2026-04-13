@@ -25,7 +25,10 @@
                 <label for="direction_name" class="form-label">direction_name:</label> 
                 <InputText id="direction_name" @bind-Value="Direction.direction_name" class="form-control" /> 
                 <ValidationMessage For="() => Direction.direction_name" class="text-danger" /> 
-            </div>        
+            </div> 
+           @*  <div style="visibility:@hidden">
+                <label style="color:red">This direction name already exists.</label>
+            </div> *@
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
@@ -38,7 +41,7 @@
 @code {
     [SupplyParameterFromForm]
     private Direction Direction { get; set; } = new();
-
+    // string hidden = "hidden";
     int id;
     int ID
     {
@@ -57,10 +60,17 @@
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddDirection()
     {
-        using var context = DbFactory.CreateDbContext();
-        context.Directions.Add(Direction);
-       // if (context.Directions.Contains(Direction)) return;
-        await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/directions");
+       // try
+       // {
+            using var context = DbFactory.CreateDbContext();
+            context.Directions.Add(Direction);
+            // if (context.Directions.Contains(Direction)) return;
+            await context.SaveChangesAsync();
+            NavigationManager.NavigateTo("/directions");
+        //}
+        // catch(Exception ex)
+        // {
+        //     hidden = "visible";
+        // }
     }
 }

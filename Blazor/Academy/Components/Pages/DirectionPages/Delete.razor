@@ -31,13 +31,15 @@
 @code {
     private Direction? direction;
 
-    [SupplyParameterFromQuery]
-    private byte direction_id { get; set; }
+    [SupplyParameterFromQuery(Name = "direction_id")]
+    private int direction_id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
         direction = await context.Directions.FirstOrDefaultAsync(m => m.direction_id == direction_id);
+
+        byte id = (byte)direction_id;
 
         if (direction is null)
         {
