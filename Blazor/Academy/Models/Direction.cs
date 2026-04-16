@@ -11,7 +11,8 @@ namespace Academy.Models
         [UniqueDirectionName(ErrorMessage="Такое направление уже существует")]
         public string direction_name { get; set; }
         
-        
+        //Navigation properties
+        public List<Group> Groups { get; set; } = new List<Group>();
         
     }
 }

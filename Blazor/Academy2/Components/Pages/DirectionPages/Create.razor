@@ -1,9 +1,8 @@
 ﻿@page "/directions/create"
 @using Microsoft.EntityFrameworkCore
-@using Academy.Models
-@inject IDbContextFactory<Academy.Data.AcademyContext> DbFactory
+@using Academy2.Models
+@inject IDbContextFactory<Academy2.Data.Academy2Context> DbFactory
 @inject NavigationManager NavigationManager
-@rendermode InteractiveServer
 
 <PageTitle>Create</PageTitle>
 
@@ -17,16 +16,15 @@
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
             <div class="mb-3">
-                <label for="direction_id" class="form-label">ID:</label> 
-                <InputNumber id="direction_id" @bind-Value="ID" class="form-control" /> 
+                <label for="direction_id" class="form-label">direction_id:</label> 
+                <InputNumber id="direction_id" @bind-Value="Direction.direction_id" class="form-control" /> 
                 <ValidationMessage For="() => Direction.direction_id" class="text-danger" /> 
             </div>        
             <div class="mb-3">
                 <label for="direction_name" class="form-label">direction_name:</label> 
                 <InputText id="direction_name" @bind-Value="Direction.direction_name" class="form-control" /> 
                 <ValidationMessage For="() => Direction.direction_name" class="text-danger" /> 
-            </div> 
-           
+            </div>        
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
@@ -39,30 +37,13 @@
 @code {
     [SupplyParameterFromForm]
     private Direction Direction { get; set; } = new();
-    
-    int id;
-    int ID
-    {
-        get => Direction.direction_id;
-        set => Direction.direction_id = (byte)(id=value);
-    }
-    protected override void OnInitialized()
-    {
-        using (Academy.Data.AcademyContext context = DbFactory.CreateDbContext())
-        {
-            ID = context.Directions.Max(d => d.direction_id) + 1;
-        } 
-    }
-
 
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddDirection()
     {
-            using var context = DbFactory.CreateDbContext();
-            context.Directions.Add(Direction);
-            // if (context.Directions.Contains(Direction)) return;
-            await context.SaveChangesAsync();
-            NavigationManager.NavigateTo("/directions");
-       
+        using var context = DbFactory.CreateDbContext();
+        context.Directions.Add(Direction);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/directions");
     }
 }
