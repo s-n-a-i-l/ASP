@@ -10,13 +10,15 @@ namespace Academy.Models
         public string group_name { get; set; }
         [Required]
         [ForeignKey(nameof(Direction))]
-        [MinLength(1)]
+        //[MinLength(1)]
+     
         public byte direction { get; set; }
+
         public byte learning_days { get; set; }
         public TimeOnly start_time { get; set; }
 
         //Navigation properties| delayem sviaz' mej tables
-        [Required]
+        //[Required]
         public Direction? Direction { get; set; }
     }
 }
