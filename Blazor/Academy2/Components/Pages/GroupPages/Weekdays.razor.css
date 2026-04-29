@@ -1,0 +1,9 @@
+﻿.weekdays {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: max-content;
+    list-style-type: none;
+    padding: 0;
+    border:none;
+}

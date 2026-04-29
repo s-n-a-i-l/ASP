@@ -3,7 +3,7 @@
 @using Academy2.Models
 @inject IDbContextFactory<Academy2.Data.Academy2Context> DbFactory
 @inject NavigationManager NavigationManager
-
+@* @rendermode InteractiveServer *@
 
 <PageTitle>Create</PageTitle>
 
@@ -40,7 +40,7 @@
                         }
                     }
                 </InputSelect>
-                <Weekdays />
+                <Weekdays />@* Group="@Group" *@
                 <ValidationMessage For="() => Group.direction" class="text-danger" /> 
             </div>              
             <div class="mb-3">
