@@ -13,7 +13,7 @@ namespace Academy2.Models
         [Column(TypeName ="tinyint")]
         //[MinLength(1)]
         [ForeignKey(nameof(Direction))]
-        [JsonIgnore]
+        //[JsonIgnore]
         public int direction { get; set; }
 
 

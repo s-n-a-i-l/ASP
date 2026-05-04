@@ -1,7 +1,7 @@
 ﻿@rendermode InteractiveServer
 
 
-<h3>Weekdays</h3>
+<h3 style=" margin: 5px 0px">Дни обучения</h3>
 
 <ul class="weekdays form-control"> 
     @for (int i =0; i<7; i++)
@@ -10,11 +10,17 @@
         <li>
             <input type="checkbox" id="@DAYNAMES[index]" @bind="days[index]" @bind:after="Compress" />
             @* <InputCheckbox id="@DAYNAMES[i]" @bind-Value=" learning_days[i]"@onchange="Compress" /> *@
-            <label for="@DAYNAMES[i]">@DAYNAMES[i]</label>
+            <label for="@DAYNAMES[index]">@DAYNAMES[index]</label>
         </li>
             
     }
 </ul>
+@* <div class="mb-3">
+    <span class="text-danger">*</span>
+    <label for="group_name" class="form-label">group_name:</label>
+    <InputText id="group_name" @bind-Value="Group.group_name" class="form-control" aria-required="true" />
+    <ValidationMessage For="() => Group.group_name" class="text-danger" />
+</div> *@
  <div class="mb-3">
     <label for="mask" class="form-label">mask:</label>
     <InputNumber id="mask" @bind-Value="mask" class="form-control" />
@@ -23,23 +29,24 @@
 
 @code {
     readonly string[] DAYNAMES = { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье" };
-    bool[] days = new bool[77];
+    bool[] days = new bool[7];
 
     [Parameter] public Models.Group Group { get; set; }
 
     int mask;
     void Compress()
     {
-        // Task.Delay(1).ContinueWith(_ =>
-        // {
+         Task.Delay(1).ContinueWith(_ =>
+         {
             mask = 0;
             for (byte i = 0; i < 7; i++)
             {          //Побитовый сдвиг
                 // mask |= (byte)(1 << i) & Convert.ToByte(learning_days[i]);
-                if(days[i])mask |= (byte)(1 << i);
+                    if (days[i])
+                        mask |= (byte)(1 << i);
             }
             Group.learning_days = mask;
-            // InvokeAsync(StateHasChanged);
-        // });
+            InvokeAsync(StateHasChanged);
+        });
     }
 }
