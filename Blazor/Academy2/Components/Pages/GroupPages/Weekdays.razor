@@ -3,8 +3,8 @@
 
 <h3 style=" margin: 5px 0px">Дни обучения</h3>
 
-<ul class="weekdays form-control"> 
-    @for (int i =0; i<7; i++)
+<ul class="weekdays form-control">
+    @for (int i = 0; i < 7; i++)
     {
         int index = i;
         <li>
@@ -21,11 +21,11 @@
     <InputText id="group_name" @bind-Value="Group.group_name" class="form-control" aria-required="true" />
     <ValidationMessage For="() => Group.group_name" class="text-danger" />
 </div> *@
- <div class="mb-3">
+<div class="mb-3">
     <label for="mask" class="form-label">mask:</label>
     <InputNumber id="mask" @bind-Value="mask" class="form-control" />
     @* <ValidationMessage For="() => mask" class="text-danger" /> *@
-</div> 
+</div>
 
 @code {
     readonly string[] DAYNAMES = { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье" };
@@ -36,17 +36,28 @@
     int mask;
     void Compress()
     {
-         Task.Delay(1).ContinueWith(_ =>
-         {
+        Task.Delay(1).ContinueWith(_ =>
+        {
             mask = 0;
             for (byte i = 0; i < 7; i++)
             {          //Побитовый сдвиг
                 // mask |= (byte)(1 << i) & Convert.ToByte(learning_days[i]);
-                    if (days[i])
-                        mask |= (byte)(1 << i);
+                if (days[i]) mask |= (byte)(1 << i);
             }
             Group.learning_days = mask;
             InvokeAsync(StateHasChanged);
         });
+    }
+    void Extract()
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            if ((Group.learning_days>>i  & 1) != 0) days[i] = true;
+        }
+    }
+    protected override void OnInitialized()
+    {
+        // base.OnInitialized();
+        Extract();
     }
 }
