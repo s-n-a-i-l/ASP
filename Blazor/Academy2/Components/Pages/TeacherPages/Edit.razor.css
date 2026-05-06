@@ -1,0 +1,13 @@
+﻿form
+{
+    width:100%;
+}
+.human-container {
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+
+}
+::deep .photo-container {
+    width: 40%;
+}

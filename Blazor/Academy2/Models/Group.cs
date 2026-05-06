@@ -8,7 +8,7 @@ namespace Academy2.Models
         [Key]
         public int group_id { get; set; }
         [Required]
-        public string group_name { get; set; }
+        public string? group_name { get; set; }
         [Required]
         [Column(TypeName ="tinyint")]
         //[MinLength(1)]
@@ -24,5 +24,6 @@ namespace Academy2.Models
 
         //[Required]
         public Direction? Direction {  get; set; }
+        public ICollection<Student> Students { get; set; } = default!;
     }
 }
