@@ -1,7 +1,8 @@
 ﻿<h3>Photo</h3>
-<img src="url" alt="photo" />
-
+<div class="photo-area">
+    <img src="data:image;base64,@Convert.ToBase64String(data)" alt="photo" />
+</div>
 @code {
     [Parameter]
-    public IBrowserFile url { get; set; }
+    public byte[] data { get; set; } = default!;
 }
