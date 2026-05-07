@@ -78,12 +78,12 @@ else
 
                 
                     <div class="photo-container">
-                        @if (Teacher.photo != null)
-                        {
-                            <Photo data="@Teacher.photo"/>
+                        @* @if (Teacher.photo != null) *@
+                        
+                            <Photo Human="@Teacher" allow_chenge="true"/>
                             @* <img src="data:image;base64,@Convert.ToBase64String(Teacher.photo)"/> *@
-                        }
-                            <InputFile OnChange="LoadPhoto"/>                
+                        
+                            @* <InputFile OnChange="LoadPhoto"/>*@
                     </div>
 
                 </div>
@@ -105,15 +105,15 @@ else
 
     [SupplyParameterFromForm]
     private Teacher? Teacher { get; set; }
-    public IBrowserFile? url { get; set; }
+    // public IBrowserFile? url { get; set; }
 
-    async Task LoadPhoto(InputFileChangeEventArgs e)
-    {
-        url = e.File;
-        MemoryStream ms = new MemoryStream();
-        await url.OpenReadStream(1024*1024*10).CopyToAsync(ms);
-        Teacher.photo = ms.ToArray();
-    }
+    // async Task LoadPhoto(InputFileChangeEventArgs e)
+    // {
+    //     url = e.File;
+    //     MemoryStream ms = new MemoryStream();
+    //     await url.OpenReadStream(1024*1024*10).CopyToAsync(ms);
+    //     Teacher.photo = ms.ToArray();
+    // }
 
     protected override async Task OnInitializedAsync()
     {

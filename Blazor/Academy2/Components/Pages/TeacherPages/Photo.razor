@@ -1,8 +1,34 @@
 ﻿<h3>Photo</h3>
 <div class="photo-area">
-    <img src="data:image;base64,@Convert.ToBase64String(data)" alt="photo" />
+    @if (Human.photo != null)
+    {
+        <img src="data:image;base64,@Convert.ToBase64String(Human.photo)" alt="Photo" />
+    }
+    else
+    {
+        <span>Нет фото</span>
+    }
 </div>
+@if (allow_chenge)
+{
+    <InputFile OnChange="LoadPhoto" />
+    
+}
 @code {
+    // [Parameter]
+    // public byte[] data { get; set; } = default!;
     [Parameter]
-    public byte[] data { get; set; } = default!;
+    public Models.Human Human { get; set; }
+    [Parameter]
+    public bool allow_chenge { get; set; }
+    public IBrowserFile url { get; set; }
+
+    async Task LoadPhoto(InputFileChangeEventArgs e)
+    {
+        url = e.File;
+        MemoryStream ms = new MemoryStream();
+        await url.OpenReadStream(1024 * 1024 * 10).CopyToAsync(ms);
+        Human.photo = ms.ToArray();
+        // data = ms.ToArray();
+    }
 }
