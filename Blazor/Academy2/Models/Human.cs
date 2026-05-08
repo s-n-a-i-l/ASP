@@ -7,9 +7,9 @@ namespace Academy2.Models
     {
 
         [Required]
-        public string last_name { get; set; }
+        public string? last_name { get; set; }
         [Required]
-        public string first_name { get; set; }
+        public string? first_name { get; set; }
         public string? middle_name { get; set; }
         [Required]
         [DataType(DataType.Date)]

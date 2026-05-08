@@ -1,11 +1,17 @@
-﻿.photo-area
-{
+﻿.photo-area {
     width: 300px;
     height: 400px;
     border: solid 1px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 img
 {
     max-width:300px;
     max-height:400px;
+}
+.photo-area span {
+    text-align: center;
 }
