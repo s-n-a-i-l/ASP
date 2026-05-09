@@ -11,5 +11,10 @@ namespace Academy2.Models
         public DateOnly work_since { get; set; } = default;
         public decimal rate { get; set; }
 
+        //Nav prop
+        public ICollection<TeacherDisciplineRelation> DisciplinesRelations { get; set; } = default!;
+
+
+
     }
 }
