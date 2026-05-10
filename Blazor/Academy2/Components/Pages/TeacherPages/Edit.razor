@@ -58,11 +58,6 @@ else
                             <InputText id="phone" @bind-Value="Teacher.phone" class="form-control" />
                             <ValidationMessage For="() => Teacher.phone" class="text-danger" />
                         </div>
-                        @* <div class="mb-3">
-                        <label for="photo" class="form-label">photo:</label>
-                        <InputText id="photo" @bind-Value="Teacher.photo" class="form-control" />
-                        <ValidationMessage For="() => Teacher.photo" class="text-danger" />
-                        </div> *@
                         <div class="mb-3">
                             <label for="work_since" class="form-label">work_since:</label>
                             <InputDate id="work_since" @bind-Value="Teacher.work_since" class="form-control" />
@@ -74,19 +69,34 @@ else
                             <ValidationMessage For="() => Teacher.rate" class="text-danger" />
                         </div>
                     </div>
-
-                
                     <div class="photo-container">
-                        @* @if (Teacher.photo != null) *@
-                        
-                            <Photo Human="@Teacher" allow_chenge="true"/>
-                            @* <img src="data:image;base64,@Convert.ToBase64String(Teacher.photo)"/> *@
-                        
-                            @* <InputFile OnChange="LoadPhoto"/>*@
+                        <Photo Human="@Teacher" allow_chenge="true" />
+                        <div class="mb-3" style="height:30vh;align-content:center;">
+                            <h5>Выберите дисциплину</h5>
+                            <InputSelect @bind-Value="discipline" class="form-control">
+                                @foreach (Discipline d in Disciplines)
+                                {
+                                    <option value="@d.discipline_id">@d.discipline_name</option>
+                                }
+                            </InputSelect>
+                            <button type="button" class="btn btn-primary" @onclick="AddDiscipline">Добавить</button>
+                            <ul>
+                                @foreach (TeacherDisciplineRelation tdr in NewDisciplines)
+                                {
+                                    <li>@tdr.Discipline.discipline_name</li>
+                                }
+                            </ul>
+                            <hr />
+                            <ul>
+                                @foreach (TeacherDisciplineRelation tdr in TDR)
+                                {
+                                    <li>@tdr.Discipline.discipline_name</li>
+                                }
+                            </ul>
+
+                        </div>
                     </div>
-
                 </div>
-
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
         </div>
@@ -97,13 +107,17 @@ else
     <a href="/teachers">Back to List</a>
 </div>
 
-@code 
+@code
 {
     [SupplyParameterFromQuery]
     private int teacher_id { get; set; }
 
     [SupplyParameterFromForm]
     private Teacher? Teacher { get; set; }
+    ICollection<Discipline>? Disciplines { get; set; }
+    ICollection<TeacherDisciplineRelation>? TDR { get; set; }
+    List<TeacherDisciplineRelation> NewDisciplines = new List<TeacherDisciplineRelation>();
+    int discipline;
     // public IBrowserFile? url { get; set; }
 
     // async Task LoadPhoto(InputFileChangeEventArgs e)
@@ -118,11 +132,21 @@ else
     {
         using var context = DbFactory.CreateDbContext();
         Teacher ??= await context.Teachers.FirstOrDefaultAsync(m => m.teacher_id == teacher_id);
-
+        Disciplines = await context.Disciplines.Where().ToListAsync();
+        TDR = await context.TeachersDisciplinesRelation.Where(t => t.teacher == teacher_id).ToListAsync();
         if (Teacher is null)
         {
             NavigationManager.NavigateTo("notfound");
         }
+    }
+    void AddDiscipline()
+    {
+        TeacherDisciplineRelation newRelation =
+        new TeacherDisciplineRelation { teacher = teacher_id, discipline = discipline };
+        newRelation.Teacher = Teacher;
+        newRelation.Discipline = Disciplines.Where(d => d.discipline_id == discipline).First();
+        //if(NewDisciplines.Contains(newRelation))
+        NewDisciplines.Add(newRelation);
     }
 
     // To protect from overposting attacks, enable the specific properties you want to bind to.
