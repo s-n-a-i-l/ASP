@@ -146,6 +146,8 @@ else
         newRelation.Teacher = Teacher;
         newRelation.Discipline = Disciplines.Where(d => d.discipline_id == discipline).First();
         //if(NewDisciplines.Contains(newRelation))
+        // if (NewDisciplines.Contains(newRelation)) return;
+        if (NewDisciplines.Any(d => d.discipline == discipline)) return;
         NewDisciplines.Add(newRelation);
     }
 
@@ -156,12 +158,14 @@ else
         using var context = DbFactory.CreateDbContext();
         context.Attach(Teacher!).State = EntityState.Modified;
 
-        TeacherDisciplineRelation new_relation = new TeacherDisciplineRelation
+        List<TeacherDisciplineRelation> pairs = new List<TeacherDisciplineRelation>();
+        foreach (TeacherDisciplineRelation tdr in NewDisciplines)
+            pairs.Add(new TeacherDisciplineRelation { teacher = tdr.teacher, discipline = tdr.discipline });
         {
-            discipline = NewDisciplines.First().discipline,
-            teacher = NewDisciplines.First().teacher,
-        };
-        context.TeachersDisciplinesRelation.Add(new_relation);
+            //tdr.Discipline = null;
+            //tdr.Teacher = null;
+        }
+        await context.TeachersDisciplinesRelation.AddRangeAsync(pairs);
 
         try
         {
